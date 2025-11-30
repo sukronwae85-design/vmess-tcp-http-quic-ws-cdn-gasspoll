@@ -1,3 +1,250 @@
+ LANGKAH AUTO INSTALL DI VPS
+METHOD 1: ONE-LINE INSTALL (PALING MUDAH)
+bash
+
+# Login ke VPS sebagai root, lalu jalankan:
+bash <(curl -s https://raw.githubusercontent.com/sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll/main/install-vmess.sh)
+
+METHOD 2: MANUAL DOWNLOAD & INSTALL
+bash
+
+# Step 1: Login ke VPS
+ssh root@ip-vps-anda
+
+# Step 2: Download installer
+wget https://raw.githubusercontent.com/sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll/main/install-vmess.sh
+
+# Step 3: Beri permission
+chmod +x install-vmess.sh
+
+# Step 4: Jalankan installer
+./install-vmess.sh
+
+METHOD 3: DIRECT SCRIPT EXECUTION
+bash
+
+# Langsung jalankan tanpa download
+curl -s https://raw.githubusercontent.com/sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll/main/install-vmess.sh | bash
+
+🔧 PASTIKAN install-vmess.sh SUDAH BENAR
+Content install-vmess.sh yang harus ada:
+bash
+
+#!/bin/bash
+echo "=========================================="
+echo "   VMESS MANAGER ULTIMATE - AUTO INSTALL"
+echo "   GitHub: sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll"
+echo "=========================================="
+
+# Download main script
+echo "📥 Downloading VMess Manager Ultimate..."
+wget -O /usr/local/bin/vmess-manager https://raw.githubusercontent.com/sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll/main/vmess-manager.sh
+
+# Make executable
+chmod +x /usr/local/bin/vmess-manager
+
+# Create symlink for easy access
+ln -sf /usr/local/bin/vmess-manager /usr/bin/vmess
+
+# Run first-time setup
+echo "🔄 Running first-time setup..."
+/usr/local/bin/vmess-manager --install
+
+echo ""
+echo "=========================================="
+echo "   ✅ INSTALLATION COMPLETED!"
+echo "=========================================="
+echo "Usage:"
+echo "  vmess-manager          # Interactive menu"
+echo "  vmess                  # Short command"
+echo ""
+echo "📋 Quick Start:"
+echo "  1. Run: vmess"
+echo "  2. Choose option 7 (Setup Nginx + Domain)"
+echo "  3. Choose option 8 (Setup SSL)"
+echo "  4. Choose option 9 (Open ALL Ports)"
+echo "  5. Create users with desired protocols"
+echo "=========================================="
+
+🎯 DEMO LENGKAP INSTALLASI
+Step 1: Login ke VPS
+bash
+
+ssh root@your-vps-ip
+# Masukkan password
+
+Step 2: Jalankan Auto Install
+bash
+
+# Pakai one-line install
+bash <(curl -s https://raw.githubusercontent.com/sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll/main/install-vmess.sh)
+
+Step 3: Lihat Proses Install
+
+Anda akan melihat output seperti:
+text
+
+==========================================
+   VMESS MANAGER ULTIMATE - AUTO INSTALL
+   GitHub: sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll
+==========================================
+📥 Downloading VMess Manager Ultimate...
+🔄 Running first-time setup...
+🔧 Initializing VMess Manager Ultimate...
+📦 Detecting OS and installing dependencies...
+🔄 Installing Xray-core...
+🎮 Installing UDPGW for game support...
+🔥 Opening ALL ports TCP & UDP...
+✅ Installation completed!
+
+==========================================
+   ✅ INSTALLATION COMPLETED!
+==========================================
+Usage:
+  vmess-manager          # Interactive menu
+  vmess                  # Short command
+
+📋 Quick Start:
+  1. Run: vmess
+  2. Choose option 7 (Setup Nginx + Domain)
+  3. Choose option 8 (Setup SSL)
+  4. Choose option 9 (Open ALL Ports)
+  5. Create users with desired protocols
+==========================================
+
+Step 4: Setup Awal
+bash
+
+# Jalankan manager
+vmess
+
+Lalu ikuti urutan ini di menu:
+
+Option 7 - Setup Nginx & Domain
+
+  Option 8 - Setup SSL Certificate
+
+   Option 9 - Open ALL Ports
+    Option 11 - Check UDPGW Status
+
+  Buat user (Option 1-6)
+
+🐛 TROUBLESHOOTING INSTALL
+Jika Error: "Command not found"
+bash
+
+# Cek apakah file terdownload
+ls -la /usr/local/bin/vmess-manager
+
+# Jika tidak ada, download manual
+wget -O /usr/local/bin/vmess-manager https://raw.githubusercontent.com/sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll/main/vmess-manager.sh
+chmod +x /usr/local/bin/vmess-manager
+ln -sf /usr/local/bin/vmess-manager /usr/bin/vmess
+
+Jika Error: "Permission denied"
+bash
+
+# Pastikan run sebagai root
+sudo -i
+
+# Atau beri permission
+chmod +x /usr/local/bin/vmess-manager
+
+Jika Error: "wget not found"
+bash
+
+# Install wget dulu
+apt update && apt install -y wget
+# atau
+yum install -y wget
+
+📱 QUICK COMMAND REFERENCE
+Setelah Install:
+bash
+
+# Jalankan manager
+vmess
+
+# Cek version
+vmess-manager --version
+
+# Restart services
+systemctl restart xray nginx
+
+# Check status
+systemctl status xray
+
+Create User Examples:
+bash
+
+vmess
+# Pilih:
+# 1 → VMESS TCP
+# 3 → VMESS WebSocket (Recommended)
+# 6 → VMESS QUIC (For Gaming)
+
+🔄 UPDATE SCRIPT
+Auto Update:
+bash
+
+# Update ke versi terbaru
+vmess-manager --update
+
+# Atau manual update
+wget -O /usr/local/bin/vmess-manager https://raw.githubusercontent.com/sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll/main/vmess-manager.sh
+chmod +x /usr/local/bin/vmess-manager
+
+✅ VERIFIKASI INSTALL BERHASIL
+Cek apakah semua berjalan:
+bash
+
+# Cek services
+systemctl status xray
+systemctl status nginx
+systemctl status badvpn-udpgw-7100
+
+# Cek ports
+netstat -tulpn | grep -E ':(80|443|8443|7100)'
+
+# Test manager
+vmess
+
+Expected Output:
+text
+
+● xray.service - Xray Service
+   Loaded: loaded (/etc/systemd/system/xray.service; enabled; vendor preset: enabled)
+   Active: active (running) since ...
+
+● nginx.service - A high performance web server and a reverse proxy server
+   Loaded: loaded (/etc/systemd/system/nginx.service; enabled; vendor preset: enabled)
+   Active: active (running) since ...
+
+● badvpn-udpgw-7100.service - BadVPN UDP Gateway for Game Support on port 7100
+   Loaded: loaded (/etc/systemd/system/badvpn-udpgw-7100.service; enabled; vendor preset: enabled)
+   Active: active (running) since ...
+
+🎉 KESIMPULAN
+
+Untuk auto install di VPS, cukup jalankan:
+bash
+
+bash <(curl -s https://raw.githubusercontent.com/sukronwae85-design/vmess-tcp-http-quic-ws-cdn-gasspoll/main/install-vmess.sh)
+
+Kemudian:
+bash
+
+vmess
+
+Dan ikuti step 7 → 8 → 9 → buat user!
+
+Semua sudah OTOMATIS dan MUDAH! 🚀
+
+
+
+
+
+
 # 🚀 VMess Manager Ultimate
 
 All-in-One VMess Management Solution dengan ALL PORTS OPEN!
@@ -27,53 +274,52 @@ All-in-One VMess Management Solution - Support semua protokol VMess dengan ALL P
 ✨ Fitur Utama
 🔌 Protocol Support
 
-    ✅ VMess TCP - Stabil dan kompatibel
+ ✅ VMess TCP - Stabil dan kompatibel
 
-    ✅ VMess HTTP - Penyamaran traffic web
+  ✅ VMess HTTP - Penyamaran traffic web
 
-    ✅ VMess WebSocket - Support CDN & reverse proxy
+ ✅ VMess WebSocket - Support CDN & reverse proxy
 
-    ✅ VMess HTTP/2 - Performa tinggi dengan TLS
+ ✅ VMess HTTP/2 - Performa tinggi dengan TLS
 
-    ✅ VMess Domain Socket - Untuk setup advanced
-
-    ✅ VMess QUIC - Low latency UDP-based
+ ✅ VMess Domain Socket - Untuk setup advanced
+ ✅ VMess QUIC - Low latency UDP-based
 
 🎮 Game & WhatsApp Support
 
-    🕹️ UDPGW Ports 7100, 7200, 7300
+ 🕹️ UDPGW Ports 7100, 7200, 7300
 
-    📱 Support Mobile Legends, Free Fire, PUBG Mobile
+ 📱 Support Mobile Legends, Free Fire, PUBG Mobile
 
-    💬 Support WhatsApp Call & Video
+💬 Support WhatsApp Call & Video
 
-    🎯 Optimized untuk gaming low latency
+🎯 Optimized untuk gaming low latency
 
 🛡️ Security & Management
 
-    🔒 Auto SSL Certificate dengan Let's Encrypt
+🔒 Auto SSL Certificate dengan Let's Encrypt
 
-    🌐 Nginx Reverse Proxy otomatis
+  Nginx Reverse Proxy otomatis
 
-    👥 Multi-Login Detection & auto kick
+  👥 Multi-Login Detection & auto kick
 
-    📊 Bandwidth Monitoring real-time
+  📊 Bandwidth Monitoring real-time
 
-    🚫 IP Limit & Auto Ban system
+   🚫 IP Limit & Auto Ban system
 
-    🔥 ALL PORTS TCP/UDP OPEN
+  🔥 ALL PORTS TCP/UDP OPEN
 
 ⚙️ System Features
 
-    🖥️ Multi-OS Support (Ubuntu, Debian, CentOS, Arch)
+ 🖥️ Multi-OS Support (Ubuntu, Debian, CentOS, Arch)
 
-    🔥 Firewall Auto Configuration - ALL PORTS OPEN
+  🔥 Firewall Auto Configuration - ALL PORTS OPEN
 
-    📝 Logging System lengkap
+  📝 Logging System lengkap
 
-    🕐 Timezone Jakarta otomatis
+ 🕐 Timezone Jakarta otomatis
 
-    🚀 Easy Installation one-click
+ 🚀 Easy Installation one-click
 
 🚀 Quick Installation - Ubuntu
 Method 1: Auto Install (Recommended)
